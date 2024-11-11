@@ -1,0 +1,37 @@
+---
+# This task will get the list of running Docker containers
+- name: Get list of running Docker containers
+  command: "docker ps -q"
+  register: running_containers
+  changed_when: false
+  failed_when: false
+
+# Only stop containers if the list is not empty
+- name: Stop all running Docker containers
+  docker_container:
+    name: "{{ item }}"
+    state: stopped
+  loop: "{{ running_containers.stdout_lines }}"
+  when: running_containers.stdout_lines | length > 0
+  ignore_errors: yes
+
+# Clean up Docker system (remove unused data)
+- name: Clean up Docker system (remove unused data)
+  command: "docker system prune -f"
+  ignore_errors: yes
+
+# Clean up Docker images
+- name: Clean up Docker images
+  command: "docker image prune -a -f"
+  ignore_errors: yes
+
+# Clean up Docker networks
+- name: Clean up Docker networks
+  command: "docker network prune -f"
+  ignore_errors: yes
+
+# Clean up Docker volumes
+- name: Clean up Docker volumes
+  command: "docker volume prune -a -f"
+  ignore_errors: yes
+

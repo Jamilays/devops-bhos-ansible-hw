@@ -1,0 +1,9 @@
+---
+- name: Clean up Docker resources
+  hosts: all
+  become: yes
+  vars_files:
+    - vault/sudo_password.yml
+  roles:
+    - docker_clean
+

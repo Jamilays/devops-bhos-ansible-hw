@@ -1,0 +1,29 @@
+# Node.js dependencies
+node_modules/
+
+# Ansible-related files (if present)
+*.retry
+
+# Local development environment files
+.env
+
+# Docker cache and build files
+.docker/
+
+# Docker-related files that are not needed in the container
+docker-compose.override.yml
+
+# IDE specific files
+.vscode/
+.idea/
+
+# Logs and temporary files
+*.log
+*.tmp
+*.swp
+*.swo
+
+# Build output
+dist/
+build/
+

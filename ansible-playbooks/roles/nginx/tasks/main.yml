@@ -1,0 +1,28 @@
+---
+# tasks file for nginx
+
+- name: Install Nginx
+  ansible.builtin.apt:
+    name: nginx
+    state: present
+  become: true
+
+- name: Start and enable Nginx service
+  ansible.builtin.service:
+    name: nginx
+    state: started
+    enabled: yes
+  become: true
+
+- name: Configure Nginx load balancer
+  ansible.builtin.template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/nginx.conf
+  become: true
+
+- name: Reload Nginx to apply changes
+  ansible.builtin.systemd:
+    name: nginx
+    state: reloaded
+  become: true
+

@@ -1,0 +1,14 @@
+- name: Deploy Movie App with PostgreSQL
+  hosts: web
+  become: yes
+  vars_files:
+    - vault/db_password.yml
+    - vault/sudo_password.yml
+  vars:
+    db_host: "host.docker.internal"
+  roles:
+    - docker
+    - db
+    - web
+    - nginx
+

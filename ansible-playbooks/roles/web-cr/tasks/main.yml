@@ -1,0 +1,22 @@
+- name: Create custom Docker network
+  docker_network:
+    name: movie_app_network
+    driver: bridge
+    state: present
+
+- name: Run movie app container
+  docker_container:
+    name: movie-app
+    image: jamilays/movie-app:v3 
+    state: started
+    restart_policy: always
+    ports:
+      - "3000:3000"
+    env:
+      DATABASE_URL: "postgres://{{ db_user }}:{{ db_password }}@{{ db_host }}:5432/{{ db_name }}"
+    networks:
+      - name: movie_app_network
+    etc_hosts:
+      host.docker.internal: "host-gateway"
+
+
